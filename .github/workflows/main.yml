@@ -1,0 +1,63 @@
+name: Multi-Language Beginner Workflow
+
+# 1. Choose when this workflow runs (on every code push)
+on: [push]
+
+jobs:
+  # --- PYTHON JOB ---
+  python-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Run Python script
+        run: |
+          # If you have a script named main.py, it will run here.
+          # If not, it will just print a success message.
+          if [ -f main.py ]; then python main.py; else echo "No main.py found yet!"; fi
+
+  # --- C JOB ---
+  c-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v4
+
+      - name: Compile and Run C program
+        run: |
+          # If you have a file named main.c, this compiles and runs it.
+          if [ -f main.c ]; then
+            gcc main.c -o myprogram
+            ./myprogram
+          else
+            echo "No main.c found yet!"
+          fi
+
+  # --- JAVA JOB ---
+  java-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Compile and Run Java program
+        run: |
+          # If you have a file named Main.java, this compiles and runs it.
+          if [ -f Main.java ]; then
+            javac Main.java
+            java Main
+          else
+            echo "No Main.java found yet!"
+          fi
